@@ -158,7 +158,10 @@ UNS.Connection.prototype.processIncomingStack = function ( callback = noop )
 
   if ( err )
   {
-    return callback( err )
+    UNS.logger.error( err )
+
+    return process.nextTick( callback.bind( null, [ new Error( 'INVALID_DATA' ) ] ) )
+    // return callback( err )
   }
 
   if ( !data )
