@@ -88,7 +88,8 @@ UNS.Connection.UDP.prototype.disconnect = function ( callback = noop )
 {
   if ( !this.transport )
   {
-    return callback()
+    return process.nextTick( callback )
+    // return callback()
   }
 
   this.transport.close( callback )
