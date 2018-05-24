@@ -1,8 +1,4 @@
-const path = require( 'path' )
-
 require( 'app-root-dir' ).set( __dirname )
-
-const root_dir = require( 'app-root-dir' ).get()
 
 module.exports = require( require( 'path' ).join( __dirname, 'src' ) )
 

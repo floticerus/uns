@@ -4,42 +4,21 @@ const util = require( 'util' )
 
 const noop = require( 'no-op' )
 
-const dgram = require( 'dgram' )
-
 const root_dir = require( 'app-root-dir' ).get()
 
 const { EventEmitter } = require( 'events' )
 
+// private function - internal only
 const createConnection = function ()
 {
-  let connection
-
   switch ( this.conf.type )
   {
     case 'udp':
-    {
-      connection = new UNS.Connection.UDP(
-        {
-
-        }
-      )
-
-      break
-    }
-
+    default:
+      return new UNS.Connection.UDP();
     case 'tcp':
-    {
-      connection = new UNS.Connection.TCP(
-        {
-
-        }
-      )
-
-      break
-    }
+      return new UNS.Connection.TCP();
   }
-
-  return connection
 }
 
 class UNS
