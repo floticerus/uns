@@ -99,7 +99,7 @@ UNS.Connection.UDP.prototype.processOutgoingStack = function ( callback = noop )
 {
   if ( !this.stack.out.length )
   {
-    return // stack is empty
+    return process.nextTick( callback ) // stack is empty
   }
 
   this.transport.send( this.stack.out, this.getOutgoingPort(), this.getHost(), err =>
