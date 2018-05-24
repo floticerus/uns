@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node ./bin/uns"
   },
   "dependencies": {
     "app-root-dir": "^1.0.2",
