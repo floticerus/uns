@@ -7,9 +7,7 @@
   },
   "dependencies": {
     "app-root-dir": "^1.0.2",
-    "compression": "^1.7.1",
     "no-op": "^1.0.3",
-    "request": "^2.83.0",
     "tracer": "^0.8.15"
   },
   "devDependencies": {}
