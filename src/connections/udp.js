@@ -48,7 +48,7 @@ UNS.Connection.UDP.prototype.init = function ()
   // parse the message
   this.transport.on( 'message', ( message, info ) =>
     {
-      this.stack.in = Buffer.concat( [ this.stack.in, message ] )
+      this.stack.in = Buffer.concat( [ this.stack.in, message ], this.stack.in.length + message.length )
 
       this.processIncomingStack( err =>
         {
@@ -154,9 +154,9 @@ UNS.Connection.UDP.prototype.send = function ( key, value, callback = noop )
   let len = Buffer.alloc( 4 )
   len.writeUInt32LE( buf.length, 0, 4 )
 
-  let stack_buf = Buffer.concat( [ len, buf ] )
+  let stack_buf = Buffer.concat( [ len, buf ], len.length + buf.length )
 
-  this.stack.out = Buffer.concat( [ this.stack.out, stack_buf ] )
+  this.stack.out = Buffer.concat( [ this.stack.out, stack_buf ], this.stack.out.length + stack_buf.length )
 
   callback()
 }
