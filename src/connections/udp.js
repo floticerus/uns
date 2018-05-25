@@ -140,7 +140,10 @@ UNS.Connection.UDP.prototype.send = function ( key, value, callback = noop )
 
   if ( err )
   {
-    return callback( err )
+    UNS.logger.error( err )
+
+    return process.nextTick( callback.bind( null, [ new Error( 'INVALID_DATA' ) ] ) )
+    // return callback( err )
   }
 
   if ( !message )
@@ -149,17 +152,19 @@ UNS.Connection.UDP.prototype.send = function ( key, value, callback = noop )
     // return callback( new Error( 'INVALID_DATA' ) )
   }
 
-  let buf = Buffer.from( message )
+  let message_bytes = Buffer.byteLength( message )
 
-  // write the byte length of the message so we know how much to look for
-  let len = Buffer.alloc( 4 )
-  len.writeUInt32LE( buf.length, 0, 4 )
+  let buf = Buffer.alloc( 4 + message_bytes )
 
-  let stack_buf = Buffer.concat( [ len, buf ], len.length + buf.length )
+  // write number of bytes to first 4 bytes
+  buf.writeUInt32LE( message_bytes, 0, 4 )
 
-  this.stack.out = Buffer.concat( [ this.stack.out, stack_buf ], this.stack.out.length + stack_buf.length )
+  // write message to buffer
+  buf.write( message, 4 )
 
-  callback()
+  this.stack.out = Buffer.concat( [ this.stack.out, buf ], this.stack.out.length + buf.length )
+
+  process.nextTick( callback )
 }
 
 module.exports = UNS.Connection.UDP

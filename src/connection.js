@@ -131,7 +131,7 @@ UNS.Connection.prototype.processIncomingStack = function ( callback = noop )
     return process.nextTick( callback )
   }
 
-  let len = this.stack.in.slice( 0, 4 ).readUInt32LE( 0 )
+  let len = this.stack.in.readUInt32LE( 0, 4 )
 
   let message = this.stack.in.slice( 4, 4 + len )
 
